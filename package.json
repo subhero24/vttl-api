@@ -22,7 +22,6 @@
 	},
 	"scripts": {
 		"build": "roller",
-		"develop": "roller --watch",
-		"prepare": "build"
+		"develop": "roller --watch"
 	}
 }
