@@ -26,11 +26,12 @@ function parseMatch(xml) {
 	const id = xml.querySelector('MatchUniqueId')
 	const date = xml.querySelector('Date')
 	const time = xml.querySelector('Time')
-	const venueEntry = xml.querySelector('VenueEntry')
+	const venue = xml.querySelector('VenueEntry')
 	const score = xml.querySelector('Score')
 	const system = xml.querySelector('MatchDetails MatchSystem')
 	const referee = xml.querySelector('MatchDetails Referee')
-	const division = xml.querySelector('DivisionName')
+	const divisionId = xml.querySelector('DivisionId')
+	const divisionName = xml.querySelector('DivisionName')
 	const divisionCategory = xml.querySelector('DivisionCategory')
 	const description = xml.querySelector('MatchId')
 	const isValidated = xml.querySelector('IsValidated')
@@ -41,12 +42,17 @@ function parseMatch(xml) {
 	if (id != null) match.id = id.textContent
 	if (date != null) match.date = date.textContent
 	if (time != null) match.time = time.textContent
-	if (venueEntry != null) match.venue = parseVenue(venueEntry)
+	if (venue != null) match.venue = parseVenue(venue)
 	if (score != null) match.score = score.textContent
 	if (system != null) match.system = system.textContent
 	if (referee != null) match.referee = referee.textContent
-	if (division != null) match.division = division.textContent
-	if (divisionCategory != null) match.divisionCategory = divisionCategory.textContent
+
+	const division = {}
+	if (divisionId != null) division.id = divisionId
+	if (divisionName != null) division.name = divisionName
+	if (divisionCategory != null) division.category = divisionCategory
+	match.division = division
+
 	if (description != null) match.description = description.textContent
 	if (isValidated != null) match.isValidated = isValidated.textContent === 'true'
 	if (isLocked != null) match.isLocked = isLocked.textContent === 'true'
