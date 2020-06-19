@@ -48,9 +48,9 @@ function parseMatch(xml) {
 	if (referee != null) match.referee = referee.textContent;
 
 	const division = {};
-	if (divisionId != null) division.id = divisionId;
-	if (divisionName != null) division.name = divisionName;
-	if (divisionCategory != null) division.category = divisionCategory;
+	if (divisionId != null) division.id = divisionId.textContent;
+	if (divisionName != null) division.name = divisionName.textContent;
+	if (divisionCategory != null) division.category = divisionCategory.textContent;
 	match.division = division;
 
 	if (description != null) match.description = description.textContent;
