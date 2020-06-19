@@ -26,24 +26,30 @@ function parseMatch(xml) {
 	const id = xml.querySelector('MatchUniqueId')
 	const date = xml.querySelector('Date')
 	const time = xml.querySelector('Time')
-	const venue = xml.querySelector('Venue')
+	const venueEntry = xml.querySelector('VenueEntry')
 	const score = xml.querySelector('Score')
 	const system = xml.querySelector('MatchDetails MatchSystem')
 	const referee = xml.querySelector('MatchDetails Referee')
 	const division = xml.querySelector('DivisionName')
+	const divisionCategory = xml.querySelector('DivisionCategory')
 	const description = xml.querySelector('MatchId')
+	const isValidated = xml.querySelector('IsValidated')
+	const isLocked = xml.querySelector('IsLocked')
 	const commissioner = xml.querySelector('MatchDetails HallCommissioner')
 	const gameEntries = xml.querySelectorAll('MatchDetails IndividualMatchResults')
 
 	if (id != null) match.id = id.textContent
 	if (date != null) match.date = date.textContent
 	if (time != null) match.time = time.textContent
-	if (venue != null) match.venue = venue.textContent
+	if (venueEntry != null) match.venue = parseVenue(venueEntry)
 	if (score != null) match.score = score.textContent
 	if (system != null) match.system = system.textContent
 	if (referee != null) match.referee = referee.textContent
 	if (division != null) match.division = division.textContent
+	if (divisionCategory != null) match.divisionCategory = divisionCategory.textContent
 	if (description != null) match.description = description.textContent
+	if (isValidated != null) match.isValidated = isValidated.textContent === 'true'
+	if (isLocked != null) match.isLocked = isLocked.textContent === 'true'
 	if (commissioner != null) match.commissioner = commissioner.textContent
 	if (gameEntries != null && gameEntries.length > 0) match.games = [...gameEntries].map(parseGame)
 
@@ -137,7 +143,7 @@ function parseGame(xml) {
 }
 
 function parseScore(scores) {
-	return scores.split(',').map(score => {
+	return scores.split(',').map((score) => {
 		let points = parseInt(score.split('|')[1], 10)
 
 		let home, away
@@ -150,6 +156,27 @@ function parseScore(scores) {
 		}
 		return { home, away }
 	})
+}
+
+/**
+ * @returns {Venue}
+ */
+function parseVenue(xml) {
+	let venue = {}
+
+	const name = xml.querySelector('Name')
+	const street = xml.querySelector('Street')
+	const town = xml.querySelector('Town')
+	const phone = xml.querySelector('Phone')
+	const comment = xml.querySelector('Comment')
+
+	if (name != null && name.textContent !== '') venue.name = name.textContent
+	if (street != null && street.textContent !== '') venue.street = street.textContent
+	if (town != null && town.textContent !== '') venue.town = town.textContent
+	if (phone != null && phone.textContent !== '') venue.phone = phone.textContent
+	if (comment != null && comment.textContent !== '') venue.comment = comment.textContent
+
+	return venue
 }
 
 export default matches
