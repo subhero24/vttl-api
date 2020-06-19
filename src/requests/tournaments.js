@@ -1,23 +1,66 @@
 import request from '../utils/request';
+import { XmlString, XmlInteger, XmlNode, XmlNodes } from '../utils/xml-types';
 
 // Options can contain the following fields:
 // - Season
+// - TournamentUniqueIndex
+// - WithResults
+// - WithRegistrations
 
-async function tournaments(options = {}) {
-	const xml = await request({ GetTournaments: options });
-	const tournamentEntries = xml.querySelectorAll('TournamentEntries') || [];
-	return [...tournamentEntries].map(parseTournament);
+export default async function tournaments(options = {}) {
+	let xml = await request({ GetTournaments: options });
+	return XmlNodes(xml, 'TournamentEntries', parseTournament);
 }
 
 function parseTournament(xml) {
-	let tournament = {};
-	const id = xml.querySelector('UniqueIndex');
-	const name = xml.querySelector('Name');
-	const description = xml.querySelector('ExternalIndex');
-	if (id != null) tournament.id = id.textContent;
-	if (name != null) tournament.name = name.textContent;
-	if (description != null) tournament.description = description.textContent;
-	return tournament;
+	return {
+		id: XmlString(xml, 'UniqueIndex'),
+		name: XmlString(xml, 'Name'),
+		venue: XmlNode(xml, 'Venue', parseVenue),
+		series: XmlNodes(xml, 'SerieEntries', parseSerie),
+		level: XmlString(xml, 'Level'),
+		start: XmlString(xml, 'DateFrom'),
+		finish: XmlString(xml, 'DateTo'),
+		description: XmlString(xml, 'ExternalIndex'),
+		registration: XmlString(xml, 'RegistrationDate'),
+	};
 }
 
-export default tournaments;
+function parseVenue(xml) {
+	return {
+		name: XmlString(xml, 'Name'),
+		town: XmlString(xml, 'Town'),
+		street: XmlString(xml, 'Street'),
+	};
+}
+
+function parseSerie(xml) {
+	return {
+		id: XmlString(xml, 'UniqueIndex'),
+		name: XmlString(xml, 'Name'),
+		count: XmlString(xml, 'RegistrationCount'),
+		results: XmlNodes(xml, 'ResultEntries', parseResult),
+	};
+}
+
+function parseResult(xml) {
+	return {
+		home: {
+			sets: XmlInteger(xml, 'HomeSetCount'),
+			player: XmlNode(xml, 'HomePlayer', parsePlayer),
+		},
+		away: {
+			sets: XmlInteger(xml, 'AwaySetCount'),
+			player: XmlNode(xml, 'AwayPlayer', parsePlayer),
+		},
+	};
+}
+
+function parsePlayer(xml) {
+	return {
+		id: XmlString(xml, 'UniqueIndex'),
+		ranking: XmlString(xml, 'Ranking'),
+		lastname: XmlString(xml, 'LastName'),
+		firstname: XmlString(xml, 'FirstName'),
+	};
+}

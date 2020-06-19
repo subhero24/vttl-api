@@ -1,20 +1,15 @@
 import request from '../utils/request';
+import { XmlNodes, XmlString, XmlBoolean } from '../utils/xml-types';
 
-async function seasons() {
-	const xml = await request({ GetSeasonsRequest: {} });
-	const seasonEntries = xml.querySelectorAll('SeasonEntries') || [];
-	return [...seasonEntries].map(parseSeason);
+export default async function seasons() {
+	let xml = await request({ GetSeasonsRequest: {} });
+	return XmlNodes(xml, 'SeasonEntries', parseSeason);
 }
 
 function parseSeason(xml) {
-	let season = {};
-	const id = xml.querySelector('Season');
-	const name = xml.querySelector('Name');
-	const current = xml.querySelector('IsCurrent');
-	if (id != null) season.id = id.textContent;
-	if (name != null) season.name = name.textContent;
-	if (current != null) season.current = current.textContent === 'true';
-	return season;
+	return {
+		id: XmlString(xml, 'Season'),
+		name: XmlString(xml, 'Name'),
+		current: XmlBoolean(xml, 'IsCurrent'),
+	};
 }
-
-export default seasons;

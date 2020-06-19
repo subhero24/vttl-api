@@ -21,6 +21,7 @@
 		"@babel/runtime": "^7.6.3"
 	},
 	"scripts": {
+		"lint": "eslint src --max-warnings 0",
 		"build": "roller",
 		"develop": "roller --watch"
 	}

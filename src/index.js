@@ -3,6 +3,7 @@ export { default as categories } from './data/categories.js';
 
 export { default as getClubs } from './requests/clubs.js';
 export { default as getTeams } from './requests/teams.js';
+export { default as getSystems } from './requests/systems.js';
 export { default as getMembers } from './requests/members.js';
 export { default as getRanking } from './requests/ranking.js';
 export { default as getMatches } from './requests/matches.js';
