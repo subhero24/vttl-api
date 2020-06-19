@@ -46,6 +46,6 @@ const Categories = {
 	34: { id: 34, description: 'Veteranen Dames 75' },
 	35: { id: 35, description: 'Veteranen 85' },
 	36: { id: 36, description: 'Veteranen Dames 85' },
-}
+};
 
-export default Categories
+export default Categories;

@@ -1,4 +1,4 @@
-import request from '../utils/request'
+import request from '../utils/request';
 
 /**
  * @typedef {Object} Venue
@@ -31,53 +31,53 @@ async function clubs(options = {}) {
 	// - Season
 	// - ClubCategory
 	// - Club
-	const xml = await request({ GetClubs: options })
-	const clubEntries = xml.querySelectorAll('ClubEntries') || []
-	return [...clubEntries].map(parseClub)
+	const xml = await request({ GetClubs: options });
+	const clubEntries = xml.querySelectorAll('ClubEntries') || [];
+	return [...clubEntries].map(parseClub);
 }
 
 /**
  * @returns {Club}
  */
 function parseClub(xml) {
-	let club = {}
+	let club = {};
 
-	const id = xml.querySelector('UniqueIndex')
-	const name = xml.querySelector('Name')
-	const venues = xml.querySelectorAll('VenueEntries')
-	const longname = xml.querySelector('LongName')
-	const province = xml.querySelector('Category')
+	const id = xml.querySelector('UniqueIndex');
+	const name = xml.querySelector('Name');
+	const venues = xml.querySelectorAll('VenueEntries');
+	const longname = xml.querySelector('LongName');
+	const province = xml.querySelector('Category');
 
-	if (id != null) club.id = id.textContent
-	if (name != null) club.name = name.textContent
-	if (venues != null && venues.length > 0) club.venues = [...venues].map(parseVenue)
-	if (longname != null) club.longname = longname.textContent
-	if (province != null) club.province = province.textContent
+	if (id != null) club.id = id.textContent;
+	if (name != null) club.name = name.textContent;
+	if (venues != null && venues.length > 0) club.venues = [...venues].map(parseVenue);
+	if (longname != null) club.longname = longname.textContent;
+	if (province != null) club.province = province.textContent;
 
-	return club
+	return club;
 }
 
 /**
  * @returns {Venue}
  */
 function parseVenue(xml) {
-	let venue = {}
+	let venue = {};
 
-	const id = xml.querySelector('ClubVenue')
-	const name = xml.querySelector('Name')
-	const street = xml.querySelector('Street')
-	const town = xml.querySelector('Town')
-	const phone = xml.querySelector('Phone')
-	const comment = xml.querySelector('Comment')
+	const id = xml.querySelector('ClubVenue');
+	const name = xml.querySelector('Name');
+	const street = xml.querySelector('Street');
+	const town = xml.querySelector('Town');
+	const phone = xml.querySelector('Phone');
+	const comment = xml.querySelector('Comment');
 
-	if (id != null) venue.id = id.textContent
-	if (name != null && name.textContent !== '') venue.name = name.textContent
-	if (street != null && street.textContent !== '') venue.street = street.textContent
-	if (town != null && town.textContent !== '') venue.town = town.textContent
-	if (phone != null && phone.textContent !== '') venue.phone = phone.textContent
-	if (comment != null && comment.textContent !== '') venue.comment = comment.textContent
+	if (id != null) venue.id = id.textContent;
+	if (name != null && name.textContent !== '') venue.name = name.textContent;
+	if (street != null && street.textContent !== '') venue.street = street.textContent;
+	if (town != null && town.textContent !== '') venue.town = town.textContent;
+	if (phone != null && phone.textContent !== '') venue.phone = phone.textContent;
+	if (comment != null && comment.textContent !== '') venue.comment = comment.textContent;
 
-	return venue
+	return venue;
 }
 
-export default clubs
+export default clubs;
