@@ -20,6 +20,6 @@ const Provinces = {
 	9: { id: 9, name: 'Luxemburg' },
 	10: { id: 10, name: 'Luik' },
 	11: { id: 11, name: 'Namen' },
-}
+};
 
-export default Provinces
+export default Provinces;

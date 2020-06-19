@@ -1,4 +1,4 @@
-import xml from './xml.js'
+import xml from './xml.js';
 
 // Not using fetch, because it has no XML parser
 // Needs browsers DOMParser to parse XML from fetch
@@ -11,26 +11,26 @@ function request(options) {
 			'<SOAP-ENV:Body>' +
 			`${xml(options)}` +
 			'</SOAP-ENV:Body>' +
-			'</SOAP-ENV:Envelope>'
+			'</SOAP-ENV:Envelope>';
 
-		const xhr = new XMLHttpRequest()
+		const xhr = new XMLHttpRequest();
 		xhr.onload = () => {
 			if (xhr.status === 200) {
-				resolve(xhr.responseXML)
+				resolve(xhr.responseXML);
 			}
-		}
+		};
 		xhr.onreadystatechange = () => {
 			if (xhr.status === 500) {
-				reject(xhr.statusText)
+				reject(xhr.statusText);
 			}
-		}
+		};
 		xhr.onerror = () => {
-			reject(xhr.statusText)
-		}
+			reject(xhr.statusText);
+		};
 
-		xhr.open('POST', 'https://api.vttl.be/0.7/index.php?s=vttl')
-		xhr.send(data)
-	})
+		xhr.open('POST', 'https://api.vttl.be/0.7/index.php?s=vttl');
+		xhr.send(data);
+	});
 }
 
-export default request
+export default request;
