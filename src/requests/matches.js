@@ -26,24 +26,36 @@ function parseMatch(xml) {
 	const id = xml.querySelector('MatchUniqueId');
 	const date = xml.querySelector('Date');
 	const time = xml.querySelector('Time');
-	const venue = xml.querySelector('Venue');
+	const venue = xml.querySelector('VenueEntry');
 	const score = xml.querySelector('Score');
 	const system = xml.querySelector('MatchDetails MatchSystem');
 	const referee = xml.querySelector('MatchDetails Referee');
-	const division = xml.querySelector('DivisionName');
+	const divisionId = xml.querySelector('DivisionId');
+	const divisionName = xml.querySelector('DivisionName');
+	const divisionCategory = xml.querySelector('DivisionCategory');
 	const description = xml.querySelector('MatchId');
+	const isValidated = xml.querySelector('IsValidated');
+	const isLocked = xml.querySelector('IsLocked');
 	const commissioner = xml.querySelector('MatchDetails HallCommissioner');
 	const gameEntries = xml.querySelectorAll('MatchDetails IndividualMatchResults');
 
 	if (id != null) match.id = id.textContent;
 	if (date != null) match.date = date.textContent;
 	if (time != null) match.time = time.textContent;
-	if (venue != null) match.venue = venue.textContent;
+	if (venue != null) match.venue = parseVenue(venue);
 	if (score != null) match.score = score.textContent;
 	if (system != null) match.system = system.textContent;
 	if (referee != null) match.referee = referee.textContent;
-	if (division != null) match.division = division.textContent;
+
+	const division = {};
+	if (divisionId != null) division.id = divisionId;
+	if (divisionName != null) division.name = divisionName;
+	if (divisionCategory != null) division.category = divisionCategory;
+	match.division = division;
+
 	if (description != null) match.description = description.textContent;
+	if (isValidated != null) match.isValidated = isValidated.textContent === 'true';
+	if (isLocked != null) match.isLocked = isLocked.textContent === 'true';
 	if (commissioner != null) match.commissioner = commissioner.textContent;
 	if (gameEntries != null && gameEntries.length > 0) match.games = [...gameEntries].map(parseGame);
 
@@ -150,6 +162,27 @@ function parseScore(scores) {
 		}
 		return { home, away };
 	});
+}
+
+/**
+ * @returns {Venue}
+ */
+function parseVenue(xml) {
+	let venue = {};
+
+	const name = xml.querySelector('Name');
+	const street = xml.querySelector('Street');
+	const town = xml.querySelector('Town');
+	const phone = xml.querySelector('Phone');
+	const comment = xml.querySelector('Comment');
+
+	if (name != null && name.textContent !== '') venue.name = name.textContent;
+	if (street != null && street.textContent !== '') venue.street = street.textContent;
+	if (town != null && town.textContent !== '') venue.town = town.textContent;
+	if (phone != null && phone.textContent !== '') venue.phone = phone.textContent;
+	if (comment != null && comment.textContent !== '') venue.comment = comment.textContent;
+
+	return venue;
 }
 
 export default matches;
