@@ -4,7 +4,7 @@ import { XmlNodes, XmlString, XmlInteger, XmlBoolean } from '../utils/xml-types'
 // Options can contain the following fields:
 // - UniqueIndex
 
-export default async function teams(options = {}) {
+export default async function systems(options = {}) {
 	let xml = await request({ GetMatchSystems: options });
 	return XmlNodes(xml, 'MatchSystemEntries', parseSystem);
 }
