@@ -19,7 +19,7 @@ function parseSystem(xml) {
 		doubles: XmlInteger(xml, 'DoubleMatchCount'),
 		forced: XmlBoolean(xml, 'ForcedDoubleTeams'),
 		matches: XmlNodes(xml, 'TeamMatchDefinitionEntries', parseMatchDescription),
-		substitutes: XmlInteger(xml, 'DoubleMatchCount'),
+		substitutes: XmlInteger(xml, 'SubstituteCount'),
 	};
 }
 
