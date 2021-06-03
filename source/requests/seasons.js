@@ -1,8 +1,8 @@
-import request from '../utils/request';
-import { XmlNodes, XmlString, XmlBoolean } from '../utils/xml-types';
+import soap from '../utils/soap.js';
+import { XmlNodes, XmlString, XmlBoolean } from '../utils/xml.js';
 
 export default async function seasons() {
-	let xml = await request({ GetSeasonsRequest: {} });
+	let xml = await soap({ GetSeasonsRequest: {} });
 	return XmlNodes(xml, 'SeasonEntries', parseSeason);
 }
 

@@ -1,11 +1,11 @@
-import request from '../utils/request';
-import { XmlNodes, XmlString, XmlInteger, XmlBoolean } from '../utils/xml-types';
+import soap from '../utils/soap.js';
+import { XmlNodes, XmlString, XmlInteger, XmlBoolean } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - UniqueIndex
 
 export default async function systems(options = {}) {
-	let xml = await request({ GetMatchSystems: options });
+	let xml = await soap({ GetMatchSystems: options });
 	return XmlNodes(xml, 'MatchSystemEntries', parseSystem);
 }
 

@@ -1,12 +1,12 @@
-import request from '../utils/request';
-import { XmlString, XmlNodes } from '../utils/xml-types';
+import soap from '../utils/soap.js';
+import { XmlString, XmlNodes } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - Club
 // - Season
 
 export default async function teams(options = {}) {
-	let xml = await request({ GetClubTeamsRequest: options });
+	let xml = await soap({ GetClubTeamsRequest: options });
 	return XmlNodes(xml, 'TeamEntries', parseTeam);
 }
 

@@ -1,5 +1,5 @@
-import request from '../utils/request';
-import { XmlNodes, XmlString, XmlInteger } from '../utils/xml-types';
+import soap from '../utils/soap.js';
+import { XmlNodes, XmlString, XmlInteger } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - Club
@@ -11,7 +11,7 @@ import { XmlNodes, XmlString, XmlInteger } from '../utils/xml-types';
 // - WithResults
 
 export default async function members(options = {}) {
-	let xml = await request({ GetMembersRequest: options });
+	let xml = await soap({ GetMembersRequest: options });
 	return XmlNodes(xml, 'MemberEntries', parseMember);
 }
 

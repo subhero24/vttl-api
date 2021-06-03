@@ -1,5 +1,5 @@
-import request from '../utils/request';
-import { XmlNodes, XmlString } from '../utils/xml-types';
+import soap from '../utils/soap.js';
+import { XmlNodes, XmlString } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - Season
@@ -7,7 +7,7 @@ import { XmlNodes, XmlString } from '../utils/xml-types';
 // - ShowDivisionName (yes/no/short)
 
 export default async function divisions(options = {}) {
-	let xml = await request({ GetDivisions: options });
+	let xml = await soap({ GetDivisions: options });
 	return XmlNodes(xml, 'DivisionEntries', parseDivision);
 }
 

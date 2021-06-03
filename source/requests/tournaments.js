@@ -1,5 +1,5 @@
-import request from '../utils/request';
-import { XmlString, XmlInteger, XmlNode, XmlNodes } from '../utils/xml-types';
+import soap from '../utils/soap.js';
+import { XmlString, XmlInteger, XmlNode, XmlNodes } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - Season
@@ -8,7 +8,7 @@ import { XmlString, XmlInteger, XmlNode, XmlNodes } from '../utils/xml-types';
 // - WithRegistrations
 
 export default async function tournaments(options = {}) {
-	let xml = await request({ GetTournaments: options });
+	let xml = await soap({ GetTournaments: options });
 	return XmlNodes(xml, 'TournamentEntries', parseTournament);
 }
 

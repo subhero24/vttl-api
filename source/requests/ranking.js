@@ -1,5 +1,5 @@
-import request from '../utils/request';
-import { XmlNode, XmlNodes, XmlString, XmlInteger } from '../utils/xml-types';
+import soap from '../utils/soap.js';
+import { XmlNode, XmlNodes, XmlString, XmlInteger } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - DivisionId
@@ -7,7 +7,7 @@ import { XmlNode, XmlNodes, XmlString, XmlInteger } from '../utils/xml-types';
 // - RankingSystem
 
 export default async function ranking(options) {
-	let xml = await request({ GetDivisionRankingRequest: options });
+	let xml = await soap({ GetDivisionRankingRequest: options });
 	return XmlNode(xml, 'GetDivisionRankingResponse', parseRanking);
 }
 

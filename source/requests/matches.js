@@ -1,5 +1,5 @@
-import request from '../utils/request';
-import { XmlString, XmlBoolean, XmlNodes, XmlInteger } from '../utils/xml-types';
+import soap from '../utils/soap.js';
+import { XmlString, XmlBoolean, XmlNodes, XmlInteger } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - DivisionId
@@ -17,7 +17,7 @@ import { XmlString, XmlBoolean, XmlNodes, XmlInteger } from '../utils/xml-types'
 // - MatchUniqueId
 
 export default async function matches(options = {}) {
-	let xml = await request({ GetMatchesRequest: options });
+	let xml = await soap({ GetMatchesRequest: options });
 	return XmlNodes(xml, 'TeamMatchesEntries', parseMatch);
 }
 

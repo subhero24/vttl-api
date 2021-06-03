@@ -2,27 +2,24 @@
 	"name": "vttl-api",
 	"version": "1.1.1",
 	"description": "A javascript library to interface with the VTTL table tennis API",
-	"main": "dist/index.js",
-	"module": "dist/index.module.js",
-	"source": "src/index.js",
+	"main": "build/index.js",
+	"type": "module",
+	"types": "build/index.d.ts",
 	"author": "Bruno Van Damme",
 	"license": "MIT",
-	"dependencies": {},
 	"devDependencies": {
 		"@babel/core": "^7.10.2",
-		"@babel/plugin-transform-runtime": "^7.10.1",
 		"@babel/preset-env": "^7.10.2",
-		"babel-eslint": "^10.1.0",
+		"@rollup/plugin-babel": "^5.3.0",
+		"@rollup/plugin-commonjs": "^19.0.0",
+		"@rollup/plugin-node-resolve": "^13.0.0",
 		"eslint": "^7.2.0",
-		"esm": "^3.2.25",
-		"roller-bundler": "0.0.2"
-	},
-	"peerDependencies": {
-		"@babel/runtime": "^7.6.3"
+		"rollup": "^2.50.5",
+		"rollup-plugin-terser": "^7.0.2"
 	},
 	"scripts": {
 		"lint": "eslint src --max-warnings 0",
-		"build": "roller",
-		"develop": "roller --watch"
+		"build": "rollup -c rollup.config.js && cp source/index.d.ts build/index.d.ts",
+		"develop": "rollup -c rollup.config.js -w"
 	}
 }

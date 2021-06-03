@@ -1,9 +1,9 @@
-import xml from './xml.js';
-
 // Not using fetch, because it has no XML parser
 // Needs browsers DOMParser to parse XML from fetch
 
-function request(options) {
+const url = 'https://api.vttl.be/0.7/index.php?s=vttl';
+
+export default function soap(options) {
 	return new Promise((resolve, reject) => {
 		let data =
 			'<?xml version="1.0" encoding="UTF-8"?>' +
@@ -28,9 +28,19 @@ function request(options) {
 			reject(xhr.statusText);
 		};
 
-		xhr.open('POST', 'https://api.vttl.be/0.7/index.php?s=vttl');
+		xhr.open('POST', url);
 		xhr.send(data);
 	});
 }
 
-export default request;
+function xml(object, namespace = 'ns1') {
+	let string = '';
+	for (let prop in object) {
+		if (!Object.prototype.hasOwnProperty.call(object, prop)) continue;
+
+		let value = object[prop];
+		let substring = typeof value === 'object' ? xml(value) : value;
+		string = `${string}<${namespace}:${prop}>${substring}</${namespace}:${prop}>`;
+	}
+	return string;
+}

@@ -5,7 +5,6 @@
 		"browser": true
 	},
 	"extends": "eslint:recommended",
-	"parser": "babel-eslint",
 	"parserOptions": {
 		"ecmaVersion": 7,
 		"sourceType": "module"
@@ -17,5 +16,6 @@
 		"no-unused-vars": "warn",
 		"indent": ["error", "tab"],
 		"linebreak-style": ["error", "unix"]
-	}
+	},
+	"ignorePatterns": ["*.d.ts"]
 }
