@@ -1,5 +1,5 @@
-export let provinces: { [key: string]: { id: string, name: string } };
-export let categories: { [key: string]: { id: string, description: string } };
+export let provinces: { id: string, name: string }[];
+export let categories: { id: string, description: string }[];
 
 export function getClubs(options: any): any;
 export function getTeams(options: any): any;
