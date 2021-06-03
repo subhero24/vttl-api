@@ -1,4 +1,6 @@
-test
+source
 node_modules
 documentation
 
+.eslintrc
+prettier.config.js
