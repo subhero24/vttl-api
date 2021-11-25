@@ -11,10 +11,8 @@ npm install vttl-api
 ```javascript
 import { provinces, getClubs } from 'vttl-api';
 
-async function run() {
-	for (let provinceId in provinces) {
-		let clubs = await getClubs({ clubCategory: provinceId });
-	}
+for (let provinceId in provinces) {
+	let clubs = await getClubs({ clubCategory: provinceId });
 }
 ```
 
