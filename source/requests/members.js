@@ -15,10 +15,15 @@ export default async function members(options = {}) {
 	return XmlNodes(xml, 'MemberEntries', parseMember);
 }
 
+let rankingMap = {
+	'ELO': 'elo',
+	'BEL/pts': 'points',
+	'BEL/pos': 'position',
+};
+
 function parseMember(xml) {
-	return {
+	let result = {
 		id: XmlString(xml, 'UniqueIndex'),
-		elo: XmlInteger(xml, 'RankingPointsEntries Value'),
 		club: XmlString(xml, 'Club'),
 		index: XmlInteger(xml, 'RankingIndex'),
 		status: XmlString(xml, 'Status'),
@@ -28,6 +33,15 @@ function parseMember(xml) {
 		firstname: XmlString(xml, 'FirstName'),
 		results: XmlNodes(xml, 'ResultEntries', parseResult),
 	};
+
+	for (let rankingPointsEntry of XmlNodes(xml, 'RankingPointsEntries')) {
+		let value = XmlInteger(rankingPointsEntry, 'Value');
+		let method = XmlString(rankingPointsEntry, 'MethodName');
+
+		result[rankingMap[method]] = value;
+	}
+
+	return result;
 }
 
 function parseResult(xml) {

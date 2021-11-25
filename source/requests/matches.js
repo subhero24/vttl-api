@@ -22,7 +22,7 @@ export default async function matches(options = {}) {
 }
 
 function parseMatch(xml) {
-	return {
+	let result = {
 		id: XmlString(xml, 'MatchUniqueId'),
 		name: XmlString(xml, 'MatchId'),
 		time: XmlString(xml, 'Time'),
@@ -54,7 +54,6 @@ function parseMatch(xml) {
 		home: {
 			club: XmlString(xml, 'HomeClub'),
 			team: XmlString(xml, 'HomeTeam'),
-			score: XmlInteger(xml, 'HomeScore'),
 			captain: XmlString(xml, 'HomeCaptain'),
 			players: XmlNodes(xml, 'HomePlayers Players', parsePlayer),
 			withdrawn: XmlString(xml, 'IsHomeWithdrawn', parseWithdrawn),
@@ -71,6 +70,14 @@ function parseMatch(xml) {
 		},
 		matches: XmlNodes(xml, 'IndividualMatchResults', parseGame),
 	};
+
+	let score = XmlString(xml, 'Score');
+	if (score) {
+		result.home.score = XmlInteger(xml, 'HomeScore');
+		result.away.score = XmlInteger(xml, 'AwayScore');
+	}
+
+	return result;
 }
 
 function parseWithdrawn(value) {

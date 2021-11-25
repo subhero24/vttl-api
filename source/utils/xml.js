@@ -7,7 +7,7 @@ export function XmlNode(xml, name, func) {
 export function XmlNodes(xml, name, func) {
 	let values = xml.querySelectorAll(name);
 	if (values == undefined) return [];
-	return [...values].map(func);
+	return func ? [...values].map(func) : [...values];
 }
 
 export function XmlString(xml, name, func) {
