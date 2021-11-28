@@ -5,6 +5,7 @@
 	"source": "source/index.js",
 	"main": "build/index.cjs.js",
 	"module": "build/index.esm.js",
+	"types": "build/index.d.ts",
 	"author": "Bruno Van Damme",
 	"license": "MIT",
 	"devDependencies": {
@@ -15,6 +16,6 @@
 		"lint": "eslint src --max-warnings 0",
 		"build_main": "esbuild source/index.js --outfile=build/index.cjs.js --bundle --format=cjs --minify --sourcemap",
 		"build_module": "esbuild source/index.js --outfile=build/index.esm.js --bundle --format=esm --minify --sourcemap",
-		"build": "npm run build_main; npm run build_module"
+		"build": "npm run build_main && npm run build_module && cp source/index.d.ts build/index.d.ts"
 	}
 }
