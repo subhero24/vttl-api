@@ -70,7 +70,7 @@ function parseMatch(xml) {
 			withdrawn: XmlString(xml, 'IsAwayWithdrawn', parseWithdrawn),
 			forfaited: XmlBoolean(xml, 'IsAwayForfeited'),
 		},
-		matches: XmlNodes(xml, 'IndividualMatchResults', parseGame),
+		games: XmlNodes(xml, 'IndividualMatchResults', parseGame),
 	};
 }
 
@@ -95,14 +95,14 @@ function parseGame(xml) {
 		home: {
 			sets: XmlInteger(xml, 'HomeSetCount'),
 			player: {
-				id: XmlInteger(xml, 'HomePlayerUniqueIndex'),
+				id: XmlString(xml, 'HomePlayerUniqueIndex'),
 				index: XmlInteger(xml, 'HomePlayerMatchIndex'),
 			},
 		},
 		away: {
 			sets: XmlInteger(xml, 'AwaySetCount'),
 			player: {
-				id: XmlInteger(xml, 'AwayPlayerUniqueIndex'),
+				id: XmlString(xml, 'AwayPlayerUniqueIndex'),
 				index: XmlInteger(xml, 'AwayPlayerMatchIndex'),
 			},
 		},
