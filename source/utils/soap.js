@@ -1,6 +1,9 @@
 // Not using fetch, because it has no XML parser
 // Needs browsers DOMParser to parse XML from fetch
 
+import VttlApiError from '../utils/error.js';
+import { XmlString } from '../utils/xml.js';
+
 const url = 'https://api.vttl.be/0.7/index.php?s=vttl';
 
 export default function soap(options) {
@@ -15,13 +18,14 @@ export default function soap(options) {
 
 		const xhr = new XMLHttpRequest();
 		xhr.onload = () => {
+			let xml = xhr.responseXML;
 			if (xhr.status === 200) {
-				resolve(xhr.responseXML);
-			}
-		};
-		xhr.onreadystatechange = () => {
-			if (xhr.status === 500) {
-				reject(xhr.statusText);
+				resolve(xml);
+			} else {
+				let errorCode = XmlString(xml, 'faultcode');
+				let errorMessage = XmlString(xml, 'faultstring');
+
+				reject(new VttlApiError(errorMessage, errorCode));
 			}
 		};
 		xhr.onerror = () => {
