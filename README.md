@@ -33,3 +33,5 @@ Functions:
 -   getSeasons
 -   getDivisions
 -   getTournaments
+
+These functions are mapped to the official TabT API for which documentation can be found [here](http://api.frenoy.net/group__TabTAPIfunctions.html)
