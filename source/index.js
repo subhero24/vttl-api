@@ -10,4 +10,5 @@ export { default as getRanking } from './requests/ranking.js';
 export { default as getMatches } from './requests/matches.js';
 export { default as getSeasons } from './requests/seasons.js';
 export { default as getDivisions } from './requests/divisions.js';
+export { default as getCategories } from './requests/categories.js';
 export { default as getTournaments } from './requests/tournaments.js';

@@ -10,4 +10,5 @@ export function getRanking(options: any): any;
 export function getMatches(options: any): any;
 export function getSeasons(options: any): any;
 export function getDivisions(options: any): any;
+export function getCategories(options: any): any;
 export function getTournaments(options: any): any;
