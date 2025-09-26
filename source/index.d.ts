@@ -11,7 +11,7 @@ export function getDivisions(options: DivisionsOptions): Promise<Division[]>;
 export function getCategories(options: CategoriesOptions): Promise<Category[]>;
 export function getTournaments(options: TournamentsOptions): Promise<Tournament[]>;
 
-export function postData(options: UploadOptions): Promise<Upload>;
+export function uploadData(options: UploadOptions): Promise<Upload>;
 
 type Id = string | number;
 
