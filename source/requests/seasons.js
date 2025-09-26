@@ -1,9 +1,14 @@
 import soap from '../utils/soap.js';
+import { prepare } from '../utils/options.js';
 import { XmlNodes, XmlString, XmlBoolean } from '../utils/xml.js';
 
-export default async function seasons() {
-	let xml = await soap({ GetSeasonsRequest: {} });
-	return XmlNodes(xml, 'SeasonEntries', parseSeason);
+export default async function seasons(options = {}) {
+	let props = prepare(options);
+
+	let xml = await soap({ GetSeasonsRequest: props });
+	let seasons = XmlNodes(xml, 'SeasonEntries', parseSeason);
+
+	return seasons;
 }
 
 function parseSeason(xml) {

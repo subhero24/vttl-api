@@ -1,4 +1,5 @@
 import soap from '../utils/soap.js';
+import { prepare } from '../utils/options.js';
 import { XmlNodes, XmlString } from '../utils/xml.js';
 
 // Options can contain the following fields:
@@ -7,8 +8,11 @@ import { XmlNodes, XmlString } from '../utils/xml.js';
 // - ShowDivisionName (yes/no/short)
 
 export default async function divisions(options = {}) {
-	let xml = await soap({ GetDivisions: options });
-	return XmlNodes(xml, 'DivisionEntries', parseDivision);
+	let props = prepare(options, [['divisions', 'ShowDivisionName']]);
+
+	let xml = await soap({ GetDivisions: props });
+	let divisions = XmlNodes(xml, 'DivisionEntries', parseDivision);
+	return divisions;
 }
 
 function parseDivision(xml) {

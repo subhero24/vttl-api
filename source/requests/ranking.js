@@ -1,4 +1,6 @@
 import soap from '../utils/soap.js';
+
+import { prepare } from '../utils/options.js';
 import { XmlNode, XmlNodes, XmlString, XmlInteger } from '../utils/xml.js';
 
 // Options can contain the following fields:
@@ -6,9 +8,19 @@ import { XmlNode, XmlNodes, XmlString, XmlInteger } from '../utils/xml.js';
 // - WeekName
 // - RankingSystem
 
-export default async function ranking(options) {
-	let xml = await soap({ GetDivisionRankingRequest: options });
-	return XmlNode(xml, 'GetDivisionRankingResponse', parseRanking);
+export default async function ranking(options = {}) {
+	let props = prepare(options, [
+		['week', 'WeekName'],
+		['system', 'RankingSystem'],
+		['division', 'DivisionId'],
+	]);
+
+	let xml = await soap({ GetDivisionRankingRequest: props });
+	let ranking = XmlNode(xml, 'GetDivisionRankingResponse', parseRanking);
+
+	ranking.division.id = options.division;
+
+	return ranking;
 }
 
 function parseRanking(xml) {
@@ -22,17 +34,17 @@ function parseRanking(xml) {
 
 function parseRankingEntry(xml) {
 	return {
+		points: XmlInteger(xml, 'Points'),
+		position: XmlInteger(xml, 'Position'),
 		team: {
 			club: XmlString(xml, 'TeamClub'),
 			name: XmlString(xml, 'Team'),
 		},
-		points: XmlInteger(xml, 'Points'),
-		position: XmlInteger(xml, 'Position'),
 		matches: {
-			total: XmlInteger(xml, 'GamesPlayed'),
 			won: XmlInteger(xml, 'GamesWon'),
 			lost: XmlInteger(xml, 'GamesLost'),
 			draw: XmlInteger(xml, 'GamesDraw'),
+			total: XmlInteger(xml, 'GamesPlayed'),
 			forfeit: XmlInteger(xml, 'GamesWO'),
 		},
 		games: {

@@ -1,5 +1,6 @@
 import soap from '../utils/soap.js';
-import { XmlNodes, XmlString } from '../utils/xml.js';
+import { prepare } from '../utils/options.js';
+import { XmlInteger, XmlNodes, XmlString } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - Season
@@ -7,8 +8,11 @@ import { XmlNodes, XmlString } from '../utils/xml.js';
 // - Club
 
 export default async function clubs(options = {}) {
-	let xml = await soap({ GetClubs: options });
-	return XmlNodes(xml, 'ClubEntries', parseClub);
+	let props = prepare(options, [['province', 'ClubCategory']]);
+
+	let xml = await soap({ GetClubs: props });
+	let clubs = XmlNodes(xml, 'ClubEntries', parseClub);
+	return clubs;
 }
 
 function parseClub(xml) {
@@ -17,7 +21,7 @@ function parseClub(xml) {
 		name: XmlString(xml, 'Name'),
 		venues: XmlNodes(xml, 'VenueEntries', parseVenue),
 		longname: XmlString(xml, 'LongName'),
-		category: {
+		province: {
 			id: XmlString(xml, 'Category'),
 			name: XmlString(xml, 'CategoryName'),
 		},
@@ -29,8 +33,9 @@ function parseVenue(xml) {
 		id: XmlString(xml, 'ClubVenue'),
 		name: XmlString(xml, 'Name'),
 		town: XmlString(xml, 'Town'),
-		street: XmlString(xml, 'Street'),
 		phone: XmlString(xml, 'Phone'),
+		street: XmlString(xml, 'Street'),
 		comment: XmlString(xml, 'Comment'),
+		position: XmlInteger(xml, 'ClubVenue'),
 	};
 }

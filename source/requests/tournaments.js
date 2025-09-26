@@ -1,5 +1,6 @@
+import { prepare } from '../utils/options.js';
 import soap from '../utils/soap.js';
-import { XmlString, XmlInteger, XmlNode, XmlNodes } from '../utils/xml.js';
+import { XmlString, XmlInteger, XmlNode, XmlNodes, XmlDate } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - Season
@@ -8,21 +9,29 @@ import { XmlString, XmlInteger, XmlNode, XmlNodes } from '../utils/xml.js';
 // - WithRegistrations
 
 export default async function tournaments(options = {}) {
-	let xml = await soap({ GetTournaments: options });
-	return XmlNodes(xml, 'TournamentEntries', parseTournament);
+	let props = prepare(options, [
+		['id', 'TournamentUniqueIndex'],
+		['results', 'WithResults'],
+		['registrations', 'WithRegistrations'],
+	]);
+
+	let xml = await soap({ GetTournaments: props });
+	let tournaments = XmlNodes(xml, 'TournamentEntries', parseTournament);
+
+	return tournaments;
 }
 
 function parseTournament(xml) {
 	return {
 		id: XmlString(xml, 'UniqueIndex'),
 		name: XmlString(xml, 'Name'),
+		level: XmlInteger(xml, 'Level'),
 		venue: XmlNode(xml, 'Venue', parseVenue),
+		start: XmlDate(xml, 'DateFrom'),
+		finish: XmlDate(xml, 'DateTo'),
 		series: XmlNodes(xml, 'SerieEntries', parseSerie),
-		level: XmlString(xml, 'Level'),
-		start: XmlString(xml, 'DateFrom'),
-		finish: XmlString(xml, 'DateTo'),
+		deadline: XmlDate(xml, 'RegistrationDate'),
 		description: XmlString(xml, 'ExternalIndex'),
-		registration: XmlString(xml, 'RegistrationDate'),
 	};
 }
 
@@ -38,21 +47,16 @@ function parseSerie(xml) {
 	return {
 		id: XmlString(xml, 'UniqueIndex'),
 		name: XmlString(xml, 'Name'),
-		count: XmlString(xml, 'RegistrationCount'),
+		count: XmlInteger(xml, 'RegistrationCount'),
 		results: XmlNodes(xml, 'ResultEntries', parseResult),
+		registrations: XmlNodes(xml, 'RegistrationEntries', parseRegistration),
 	};
 }
 
 function parseResult(xml) {
 	return {
-		home: {
-			sets: XmlInteger(xml, 'HomeSetCount'),
-			player: XmlNode(xml, 'HomePlayer', parsePlayer),
-		},
-		away: {
-			sets: XmlInteger(xml, 'AwaySetCount'),
-			player: XmlNode(xml, 'AwayPlayer', parsePlayer),
-		},
+		players: [XmlNode(xml, 'HomePlayer', parsePlayer), XmlNode(xml, 'AwayPlayer', parsePlayer)],
+		score: [XmlInteger(xml, 'HomeSetCount'), XmlInteger(xml, 'AwaySetCount')],
 	};
 }
 
@@ -62,5 +66,29 @@ function parsePlayer(xml) {
 		ranking: XmlString(xml, 'Ranking'),
 		lastname: XmlString(xml, 'LastName'),
 		firstname: XmlString(xml, 'FirstName'),
+	};
+}
+
+function parseClub(xml) {
+	return {
+		id: XmlString(xml, 'UniqueIndex'),
+		name: XmlString(xml, 'Name'),
+		longname: XmlString(xml, 'LongName'),
+		province: {
+			id: XmlString(xml, 'Category'),
+			name: XmlString(xml, 'CategoryName'),
+		},
+	};
+}
+
+function parseRegistration(xml) {
+	let player = XmlNode(xml, 'Member', parsePlayer);
+
+	player.club = XmlNode(xml, 'Club', parseClub);
+
+	return {
+		id: XmlString(xml, 'UniqueIndex'),
+		player,
+		timestamp: XmlDate(xml, 'RegistrationDate'),
 	};
 }

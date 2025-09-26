@@ -1,12 +1,17 @@
 import soap from '../utils/soap.js';
+import { prepare } from '../utils/options.js';
 import { XmlNodes, XmlString, XmlInteger, XmlBoolean } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - UniqueIndex
 
 export default async function systems(options = {}) {
-	let xml = await soap({ GetMatchSystems: options });
-	return XmlNodes(xml, 'MatchSystemEntries', parseSystem);
+	let props = prepare(options, [['id', 'UniqueIndex']]);
+
+	let xml = await soap({ GetMatchSystems: props });
+	let systems = XmlNodes(xml, 'MatchSystemEntries', parseSystem);
+
+	return systems;
 }
 
 function parseSystem(xml) {
@@ -15,9 +20,9 @@ function parseSystem(xml) {
 		name: XmlString(xml, 'Name'),
 		sets: XmlInteger(xml, 'SetCount'),
 		points: XmlInteger(xml, 'PointCount'),
+		forced: XmlBoolean(xml, 'ForcedDoubleTeams'),
 		singles: XmlInteger(xml, 'SingleMatchCount'),
 		doubles: XmlInteger(xml, 'DoubleMatchCount'),
-		forced: XmlBoolean(xml, 'ForcedDoubleTeams'),
 		matches: XmlNodes(xml, 'TeamMatchDefinitionEntries', parseMatchDescription),
 		substitutes: XmlInteger(xml, 'SubstituteCount'),
 	};
@@ -25,9 +30,10 @@ function parseSystem(xml) {
 
 function parseMatchDescription(xml) {
 	return {
-		index: XmlInteger(xml, 'Position'),
 		type: XmlString(xml, 'Type'),
 		home: XmlInteger(xml, 'HomePlayerIndex'),
 		away: XmlInteger(xml, 'AwayPlayerIndex'),
+		position: XmlInteger(xml, 'Position'),
+		substitute: XmlBoolean(xml, 'AllowSubstitute'),
 	};
 }

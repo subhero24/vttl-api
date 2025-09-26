@@ -9,29 +9,26 @@ npm install vttl-api
 ## Basic usage
 
 ```javascript
-import { provinces, getClubs } from 'vttl-api';
+import { getTeams } from '../source/index.js';
 
-for (let province of provinces) {
-	let clubs = await getClubs({ ClubCategory: province.id });
-}
+let teams = await getTeams({ club: 'vl-b234' });
 ```
 
 ## Exports
 
-Objects:
-
--   provinces
--   categories
-
-Functions:
-
+-   getInfo
 -   getClubs
 -   getTeams
--   getMembers
+-   getSystems
+-   getPlayers
 -   getRanking
 -   getMatches
 -   getSeasons
+-   getProvinces
 -   getDivisions
+-   getCategories
 -   getTournaments
+
+-   postData
 
 These functions are mapped to the official TabT API for which documentation can be found [here](http://api.frenoy.net/group__TabTAPIfunctions.html)
