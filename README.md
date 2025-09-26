@@ -29,6 +29,6 @@ let teams = await getTeams({ club: 'lk052' });
 -   getCategories
 -   getTournaments
 
--   postData
+-   uploadData
 
 These functions are mapped to the official TabT API for which documentation can be found [here](http://api.frenoy.net/group__TabTAPIfunctions.html)
