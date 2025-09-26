@@ -9,9 +9,9 @@ npm install vttl-api
 ## Basic usage
 
 ```javascript
-import { getTeams } from '../source/index.js';
+import { getTeams } from 'vttl-api';
 
-let teams = await getTeams({ club: 'vl-b234' });
+let teams = await getTeams({ club: 'lk052' });
 ```
 
 ## Exports
