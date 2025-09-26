@@ -2,7 +2,7 @@ import soap from '../utils/soap.js';
 import { prepare } from '../utils/options.js';
 import { XmlBoolean, XmlInteger, XmlString, XmlDate } from '../utils/xml.js';
 
-export default async function info(options = {}) {
+export default async function getInfo(options = {}) {
 	let props = prepare(options);
 
 	let xml = await soap({ TestRequest: props });

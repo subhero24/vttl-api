@@ -8,7 +8,7 @@ import { XmlString, XmlInteger, XmlNode, XmlNodes, XmlDate } from '../utils/xml.
 // - WithResults
 // - WithRegistrations
 
-export default async function tournaments(options = {}) {
+export default async function getTournaments(options = {}) {
 	let props = prepare(options, [
 		['id', 'TournamentUniqueIndex'],
 		['results', 'WithResults'],

@@ -5,7 +5,7 @@ import { XmlNodes, XmlString, XmlInteger, XmlBoolean } from '../utils/xml.js';
 // Options can contain the following fields:
 // - UniqueIndex
 
-export default async function systems(options = {}) {
+export default async function getSystems(options = {}) {
 	let props = prepare(options, [['id', 'UniqueIndex']]);
 
 	let xml = await soap({ GetMatchSystems: props });

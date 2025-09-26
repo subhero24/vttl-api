@@ -11,4 +11,4 @@ export { default as getDivisions } from './requests/divisions.js';
 export { default as getCategories } from './requests/categories.js';
 export { default as getTournaments } from './requests/tournaments.js';
 
-export { default as postData } from './requests/upload.js';
+export { default as uploadData } from './requests/upload.js';

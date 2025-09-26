@@ -1,10 +1,11 @@
 {
 	"name": "vttl-api",
-	"version": "1.3.2",
+	"version": "2.0.0",
 	"description": "A javascript library to interface with the VTTL table tennis API",
 	"source": "source/index.js",
-	"main": "build/index.cjs.js",
-	"module": "build/index.esm.js",
+	"type": "module",
+	"main": "build/index.js",
+	"module": "build/index.js",
 	"types": "build/index.d.ts",
 	"author": "Bruno Van Damme",
 	"license": "MIT",
@@ -15,8 +16,7 @@
 	},
 	"scripts": {
 		"lint": "eslint src --max-warnings 0",
-		"build_main": "esbuild source/index.js --outfile=build/index.cjs.js --bundle --format=cjs --minify --sourcemap",
-		"build_module": "esbuild source/index.js --outfile=build/index.esm.js --bundle --format=esm --minify --sourcemap",
-		"build": "npm run build_main && npm run build_module && cp source/index.d.ts build/index.d.ts"
+		"build": "esbuild source/index.js --outfile=build/index.js --bundle --format=esm --minify --sourcemap",
+		"prepare": "npm run build && cp source/index.d.ts build/index.d.ts"
 	}
 }

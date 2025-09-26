@@ -8,7 +8,7 @@ import { XmlNode, XmlNodes, XmlString, XmlInteger } from '../utils/xml.js';
 // - WeekName
 // - RankingSystem
 
-export default async function ranking(options = {}) {
+export default async function getRanking(options = {}) {
 	let props = prepare(options, [
 		['week', 'WeekName'],
 		['system', 'RankingSystem'],

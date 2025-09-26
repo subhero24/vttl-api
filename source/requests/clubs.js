@@ -7,7 +7,7 @@ import { XmlInteger, XmlNodes, XmlString } from '../utils/xml.js';
 // - ClubCategory
 // - Club
 
-export default async function clubs(options = {}) {
+export default async function getClubs(options = {}) {
 	let props = prepare(options, [['province', 'ClubCategory']]);
 
 	let xml = await soap({ GetClubs: props });

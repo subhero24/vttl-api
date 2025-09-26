@@ -17,7 +17,7 @@ const pointTypes = {
 	'BEL/pos': 'position',
 };
 
-export default async function players(options = {}) {
+export default async function getPlayers(options = {}) {
 	let props = prepare(options, [
 		['id', 'UniqueIndex'],
 		['search', 'NameSearch'],

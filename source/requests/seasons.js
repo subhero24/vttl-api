@@ -2,7 +2,7 @@ import soap from '../utils/soap.js';
 import { prepare } from '../utils/options.js';
 import { XmlNodes, XmlString, XmlBoolean } from '../utils/xml.js';
 
-export default async function seasons(options = {}) {
+export default async function getSeasons(options = {}) {
 	let props = prepare(options);
 
 	let xml = await soap({ GetSeasonsRequest: props });

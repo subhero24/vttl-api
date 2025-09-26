@@ -7,7 +7,7 @@ import { XmlNodes, XmlString } from '../utils/xml.js';
 // - Level
 // - ShowDivisionName (yes/no/short)
 
-export default async function divisions(options = {}) {
+export default async function getDivisions(options = {}) {
 	let props = prepare(options, [['divisions', 'ShowDivisionName']]);
 
 	let xml = await soap({ GetDivisions: props });

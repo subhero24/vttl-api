@@ -1,4 +1,4 @@
-export default async function provinces() {
+export default async function getProvinces() {
 	return [
 		{ id: '2', name: 'Vlaams-brabant' },
 		{ id: '3', name: 'Brussel & Waals-brabant' },

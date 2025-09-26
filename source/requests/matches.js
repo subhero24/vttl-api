@@ -1,16 +1,7 @@
 import soap from '../utils/soap.js';
 import { prepare } from '../utils/options.js';
 
-import {
-	XmlString,
-	XmlBoolean,
-	XmlNodes,
-	XmlInteger,
-	XmlDate,
-	XmlNode,
-	XmlStrings,
-	XmlIntegers,
-} from '../utils/xml.js';
+import { XmlString, XmlBoolean, XmlNodes, XmlInteger, XmlDate, XmlNode, XmlStrings, XmlIntegers } from '../utils/xml.js';
 
 // Options can contain the following fields:
 // - DivisionId
@@ -27,7 +18,7 @@ import {
 // - MatchId
 // - MatchUniqueId
 
-export default async function matches(options = {}) {
+export default async function getMatches(options = {}) {
 	let props = prepare(options, [
 		['id', 'MatchUniqueId'],
 		['name', 'MatchId'],

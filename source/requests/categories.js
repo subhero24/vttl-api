@@ -1,5 +1,5 @@
-import { prepare } from '../utils/options.js';
 import soap from '../utils/soap.js';
+import { prepare } from '../utils/options.js';
 import { XmlBoolean, XmlInteger, XmlNodes, XmlString } from '../utils/xml.js';
 
 // Options can contain the following fields:
@@ -8,7 +8,7 @@ import { XmlBoolean, XmlInteger, XmlNodes, XmlString } from '../utils/xml.js';
 // - ShortNameSearch
 // - RankingCategory
 
-export default async function categories(options = {}) {
+export default async function getCategories(options = {}) {
 	let props = prepare(options, [
 		['id', 'UniqueIndex'],
 		['type', 'RankingCategory'],
